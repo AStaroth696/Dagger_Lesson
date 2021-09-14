@@ -2,8 +2,9 @@ package com.fractaldev.daggerlesson.repository
 
 import com.fractaldev.daggerlesson.database.User
 import com.fractaldev.daggerlesson.network.UserApi
+import javax.inject.Inject
 
-class NetworkRepository(
+class NetworkRepository @Inject constructor(
     private val userApi: UserApi
 ) : Repository {
 

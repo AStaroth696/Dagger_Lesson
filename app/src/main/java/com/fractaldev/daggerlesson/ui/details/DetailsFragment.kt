@@ -5,7 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import com.fractaldev.daggerlesson.App
 import com.fractaldev.daggerlesson.databinding.FragmentDetailsBinding
+import com.fractaldev.daggerlesson.di.viewmodel.details.DetailsViewModelComponent
+import javax.inject.Inject
 
 class DetailsFragment : Fragment() {
 
@@ -13,7 +17,15 @@ class DetailsFragment : Fragment() {
     private val userId by lazy {
         arguments?.getInt(KEY_ID) ?: -1
     }
-    private lateinit var viewModel: DetailsViewModel
+
+    @Inject
+    lateinit var factory: DetailsViewModelComponent.Factory
+    private val viewModel: DetailsViewModel by lazy {
+        ViewModelProvider(
+            viewModelStore,
+            DetailsViewModelFactory(userId, factory)
+        )[DetailsViewModel::class.java]
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,6 +38,8 @@ class DetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (requireContext().applicationContext as App).applicationComponent
+            .inject(this)
         viewModel.detailsTest()
     }
 

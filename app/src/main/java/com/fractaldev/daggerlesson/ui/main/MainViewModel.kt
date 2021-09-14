@@ -7,8 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.fractaldev.daggerlesson.database.User
 import com.fractaldev.daggerlesson.repository.Repository
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class MainViewModel(
+class MainViewModel @Inject constructor(
     private val repository: Repository
 ) : ViewModel() {
 
@@ -17,7 +18,8 @@ class MainViewModel(
 
     fun test() {
         viewModelScope.launch {
-            mutableUsers.postValue(repository.getUsers())
+            val users = repository.getUsers()
+            mutableUsers.postValue(users)
         }
 
     }

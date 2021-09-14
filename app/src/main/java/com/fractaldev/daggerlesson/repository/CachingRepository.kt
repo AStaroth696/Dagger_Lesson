@@ -1,10 +1,15 @@
 package com.fractaldev.daggerlesson.repository
 
 import com.fractaldev.daggerlesson.database.User
+import com.fractaldev.daggerlesson.di.DATABASE
+import com.fractaldev.daggerlesson.di.NETWORK
 import java.lang.Exception
+import javax.inject.Inject
 
-class CachingRepository(
+class CachingRepository @Inject constructor(
+    @DATABASE
     private val databaseRepository: Repository,
+    @NETWORK
     private val networkRepository: Repository
 ) : Repository {
 
